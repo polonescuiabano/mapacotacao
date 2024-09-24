@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Orçamento</title>
+    <style>
+        /* CSS para estilizar a seção dos dados da empresa */
+        .dados-empresa {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin: 0 auto; /* Centralizando a caixa de dados da empresa */
+            margin-bottom: 20px;
+            border-radius: 5px;
+            width: 50%; /* Definindo a largura da caixa de dados da empresa */
+        }
+        .dados-empresa label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cadastrar Orçamento</h1>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/cadastrar_orcamento.css' %}">
+    <div class="dados-empresa">
+        <h2 style="text-align: center">Dados da Empresa</h2> 
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="id_nome_empresa">Nome da Empresa:</label>
+            {{ form.nome_empresa }}
+            <br>
+            <label for="id_cnpj">CNPJ:</label>
+            {{ form.cnpj }}
+            <br>
+            <label for="id_telefone">Telefone:</label>
+            {{ form.telefone }}
+            <br>
+            <label for="id_email">Email:</label>
+            {{ form.email }}
+            <br>
+            <label for="id_vendedor">Vendedor:</label>
+            <input type="text" id="id_vendedor" name="vendedor">
+            <br><br>
+            <label for="data_cotacao">Data da Cotação:</label>
+            {{ form.data_cotacao }}
+            <br>
+            
+
+
+            <h2 style="text-align: center">Insumos do Orçamento</h2>
+            <div id="insumos-container"></div>
+            <div class="insumo">
+                <label for="codigo_insumo">Código do Insumo:</label>
+                <input type="text" id="codigo_insumo" name="codigo_insumo">
+                <br>
+                <label for="nome_insumo">Nome do Insumo:</label>
+                <input type="text" id="nome_insumo" name="nome_insumo">
+                <br>
+                <label for="unidade_medida">Unidade de Medida:</label>
+                <input type="text" id="unidade_medida" name="unidade_medida">
+                <br>
+                <label for="preco">Preço do Insumo:</label>
+                <input type="number" id="preco" name="preco" step="0.01">
+            </div>
+            <button type="button" id="add_insumo">Adicionar Insumo</button>
+            <br><br>
+            <label for="documento">Documento (PDF):</label>
+            <input type="file" id="documento" name="documento" accept=".pdf">
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+    function logFormData() {
+        console.log("Código do Insumo:", document.getElementById("codigo_insumo").value);
+        console.log("Nome do Insumo:", document.getElementById("nome_insumo").value);
+        console.log("Unidade de Medida:", document.getElementById("unidade_medida").value);
+        console.log("Preço:", document.getElementById("preco").value);
+    }
+
+    document.getElementById('add_insumo').addEventListener('click', function() {
+        var insumoClone = document.querySelector('.insumo').cloneNode(true);
+        insumoClone.querySelectorAll('input').forEach(function(input) {
+            input.value = '';
+            input.id += Math.random().toString(36).substring(2);
+        });
+        document.querySelector('#insumos-container').appendChild(insumoClone);
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insumos para Avaliar</title>
+</head>
+<body>
+    <h1>Insumos para Avaliar</h1>
+    <ul>
+        {% for insumo in insumos_para_avaliar %}
+        <li>
+            <a href="{% url 'avaliar_insumo' insumo.id %}">{{ insumo.nome }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

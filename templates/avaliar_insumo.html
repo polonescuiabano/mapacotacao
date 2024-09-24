@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliar Insumo</title>
+    <link rel="stylesheet" href="{% static 'css/avaliar_insumo.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Avaliar Insumo</h2>
+        <div class="insumo-details">
+            <h3>Detalhes do Insumo</h3>
+            <p><strong>Nome do Insumo:</strong> {{ insumo.nome }}</p>
+            <p><strong>Descrição:</strong> {{ insumo.descricao }}</p>
+            <p><strong>Preço 1:</strong> {{ insumo.preco1 }}</p>
+            <p><strong>CNPJ 1:</strong> {{ insumo.cnpj1 }}</p>
+            <p><strong>Razão Social 1:</strong> {{ insumo.razao_social1 }}</p>
+            <p><strong>Data da Cotação 1:</strong> {{ insumo.data_cotacao1 }}</p>
+            <p><strong>Nome do Vendedor 1:</strong> {{ insumo.vendedor1 }}</p>
+            <p><strong>Telefone para Contato 1:</strong> {{ insumo.telefone1 }}</p>
+            <p><strong>Status do Preço 1:</strong> {{ insumo.status_preco1 }}</p>
+
+            <p><strong>Preço 2:</strong> {{ insumo.preco2 }}</p>
+            <p><strong>CNPJ 2:</strong> {{ insumo.cnpj2 }}</p>
+            <p><strong>Razão Social 2:</strong> {{ insumo.razao_social2 }}</p>
+            <p><strong>Data da Cotação 2:</strong> {{ insumo.data_cotacao2 }}</p>
+            <p><strong>Nome do Vendedor 2:</strong> {{ insumo.vendedor2 }}</p>
+            <p><strong>Telefone para Contato 2:</strong> {{ insumo.telefone2 }}</p>
+            <p><strong>Status do Preço 2:</strong> {{ insumo.status_preco2 }}</p>
+
+            <p><strong>Preço 3:</strong> {{ insumo.preco3 }}</p>
+            <p><strong>CNPJ 3:</strong> {{ insumo.cnpj3 }}</p>
+            <p><strong>Razão Social 3:</strong> {{ insumo.razao_social3 }}</p>
+            <p><strong>Data da Cotação 3:</strong> {{ insumo.data_cotacao3 }}</p>
+            <p><strong>Nome do Vendedor 3:</strong> {{ insumo.vendedor3 }}</p>
+            <p><strong>Telefone para Contato 3:</strong> {{ insumo.telefone3 }}</p>
+            <p><strong>Status do Preço 3:</strong> {{ insumo.status_preco3 }}</p>
+        </div>
+        <div class="avaliacao-form">
+            <h3>Avaliação</h3>
+            <form method="POST" action="{% url 'avaliar_insumo' insumo.id %}">
+                {% csrf_token %}
+                <label for="aprovado">Aprovado?</label>
+                <select name="aprovado" id="aprovado">
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+                <button type="submit">Enviar Avaliação</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

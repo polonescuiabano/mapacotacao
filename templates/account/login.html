@@ -1,0 +1,27 @@
+{% load i18n %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h1 class="login-title">{% trans "Painel de Controle" %}</h1>
+            <form method="post" action="{% url 'account_login' %}" class="login-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <input type="submit" class="login-button" value="{% trans "Acessar" %}">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

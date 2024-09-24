@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar Relatório de Cotações</title>
+    <link rel="stylesheet" href="{% static 'css/relatorios.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Gerar Relatório de Cotações</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="calcular">Calcular:</label>
+                <select id="calcular" name="calcular">
+                    <option value="media">Média</option>
+                    <option value="mediana">Mediana</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pesquisa_tipo">Tipo de Pesquisa:</label>
+                <select id="pesquisa_tipo" name="pesquisa_tipo">
+                    <option value="descricao">Descrição</option>
+                    <option value="codigo">Código</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pesquisa_termo">Termo de Pesquisa:</label>
+                <input type="text" id="pesquisa_termo" name="pesquisa_termo">
+            </div>
+            <div class="form-group">
+                <label for="insumos">Selecione os insumos:</label>
+                <ul id="insumos-list">
+                    {% for insumo in insumos_do_usuario %}
+                        <li class="insumo-item">
+                            <input type="checkbox" id="insumo_{{ insumo.id }}" name="insumos" value="{{ insumo.id }}">
+                            <label for="insumo_{{ insumo.id }}">{{ insumo.nome }} - {{ insumo.codigo }}</label>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <button type="submit">Gerar Relatório</button>
+            <button type="button" id="limpar-pesquisa">Limpar Pesquisa</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tipoPesquisaSelect = document.getElementById('pesquisa_tipo');
+            const termoPesquisaInput = document.getElementById('pesquisa_termo');
+            const insumosList = document.getElementById('insumos-list');
+
+            tipoPesquisaSelect.addEventListener('change', function () {
+                termoPesquisaInput.value = ''; // Limpar o campo de pesquisa ao alterar o tipo
+                termoPesquisaInput.focus(); // Focar no campo de pesquisa
+                atualizarListaInsumos();
+            });
+
+            termoPesquisaInput.addEventListener('input', function () {
+                atualizarListaInsumos();
+            });
+
+            document.getElementById('limpar-pesquisa').addEventListener('click', function () {
+                termoPesquisaInput.value = ''; // Limpar o campo de pesquisa
+                atualizarListaInsumos(); // Atualizar lista para exibir todos os insumos
+            });
+
+            function atualizarListaInsumos() {
+                const tipoPesquisa = tipoPesquisaSelect.value;
+                const termoPesquisa = termoPesquisaInput.value.toLowerCase();
+                const insumoItems = document.getElementsByClassName('insumo-item');
+
+                for (let item of insumoItems) {
+                    const nomeInsumo = item.getElementsByTagName('label')[0].innerText.toLowerCase();
+                    const codigoInsumo = item.getElementsByTagName('label')[0].innerText.toLowerCase();
+
+                    if ((tipoPesquisa === 'descricao' && nomeInsumo.includes(termoPesquisa)) ||
+                        (tipoPesquisa === 'codigo' && codigoInsumo.includes(termoPesquisa))) {
+                        item.style.display = 'block'; // Exibir insumo se corresponder ao critério de pesquisa
+                    } else {
+                        item.style.display = 'none'; // Ocultar insumo se não corresponder ao critério de pesquisa
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+{% load static %}
+{% block content %}
+<div style="display: flex;">
+    <style>
+        /* Estilos para o menu lateral */
+        .sidebar {
+            width: 250px;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .sidebar a:hover {
+            background-color: #ddd;
+        }
+
+        /* Estilos para as abas */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            margin-left: 20px; /* Espaçamento para as abas */
+        }
+
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+        /* Estilos para o conteúdo */
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        .card-header {
+            background-color: #f1f1f1;
+            padding: 10px;
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+    </style>
+
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <a href="{% url 'cadastrar_orcamento' %}">Cadastrar Orçamento</a>
+        <a href="{% url 'relatorios' %}">Relatórios</a>
+        <a id="logout-link" href="#">Sair</a>
+    </div>
+
+    <div class="content">
+        <h1>Perfil do Usuário</h1>
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'cotacoes')">Cotações</button>
+            <button class="tablinks" onclick="openTab(event, 'mapas')">Mapas</button>
+        </div>
+
+        <div id="cotacoes" class="tabcontent">
+            <h3>Cotações</h3>
+            {% for insumo_com_preco in insumos_com_preco %}
+            <div class="card">
+                <div class="card-header">
+                    {{ insumo_com_preco.insumo.nome }} - {{ insumo_com_preco.insumo.codigo }}
+                    <div class="dropdown float-right">
+                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            ...
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{% url 'delete_insumo' insumo_com_preco.insumo.id %}">Deletar</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        {% for preco_razao in insumo_com_preco.precos_e_razoes_sociais %}
+                        <li>{{ preco_razao.razao_social }} - {{ preco_razao.preco }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+       <div id="mapas" class="tabcontent">
+    <h3>Mapas</h3>
+    <div>
+        {% for mapa in mapas_da_empresa %}
+            
+        <div class="card">
+            <div class="card-header">
+                <h5>{{ mapa.title }}</h5>
+                <!-- Adicione um formulário para permitir que o usuário renomeie o título do mapa -->
+                <form method="post" action="{% url 'rename_map_title' mapa.id %}">
+                    {% csrf_token %}
+                    <input type="text" name="new_title" value="{{ mapa.title }}">
+                    <button type="submit">Renomear</button>
+                </form>
+            </div>
+            <div class="card-body">
+                {% if mapa.arquivo %}
+                    <p>Arquivo associado a este mapa: {{ mapa.arquivo.name }}</p>
+                    <a href="{{ mapa.arquivo.url }}" download>Download do Mapa</a>
+                {% else %}
+                    <p>Nenhum arquivo associado a este mapa.</p>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+    </div>
+</div>
+
+    <script>
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("logout-link").addEventListener("click", function(event) {
+        event.preventDefault();  // Impede que o link execute a ação padrão
+
+        // Crie um formulário oculto e adicione-o à página
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "{% url 'logout' %}?next=/accounts/login/";
+        document.body.appendChild(form);
+
+        // Crie um campo de token CSRF para evitar erros de CSRF
+        var csrfToken = document.createElement("input");
+        csrfToken.type = "hidden";
+        csrfToken.name = "csrfmiddlewaretoken";
+        csrfToken.value = "{{ csrf_token }}";
+        form.appendChild(csrfToken);
+
+        // Envie o formulário
+        form.submit();
+    });
+});
+
+</script>
+
+{% endblock %}

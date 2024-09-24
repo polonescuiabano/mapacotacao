@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Insumos</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cadastrar_insumos.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastrar Insumos</h1>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <label for="nome">Nome do Insumo:</label><br>
+            <input type="text" id="nome" name="nome"><br><br>
+            
+            <!-- Preço 1 -->
+            <div class="preco-section">
+                <h2>Preço 1</h2>
+                <label for="preco1">Preço:</label>
+                <input type="number" id="preco1" name="preco1" step="any">
+                <label for="cnpj1">CNPJ do Fornecedor:</label>
+                <input type="text" id="cnpj1" name="cnpj1">
+                <label for="razao_social1">Razão Social:</label>
+                <input type="text" id="razao_social1" name="razao_social1">
+                <label for="data_cotacao1">Data da Cotação:</label>
+                <input type="date" id="data_cotacao1" name="data_cotacao1">
+                <label for="vendedor1">Nome do Vendedor:</label>
+                <input type="text" id="vendedor1" name="vendedor1">
+                <label for="telefone1">Telefone para Contato:</label>
+                <input type="text" id="telefone1" name="telefone1">
+            </div>
+
+            <!-- Preço 2 -->
+            <div class="preco-section">
+                <h2>Preço 2</h2>
+                <label for="preco2">Preço:</label>
+                <input type="number" id="preco2" name="preco2" step="any">
+                <label for="cnpj2">CNPJ do Fornecedor:</label>
+                <input type="text" id="cnpj2" name="cnpj2">
+                <label for="razao_social2">Razão Social:</label>
+                <input type="text" id="razao_social2" name="razao_social2">
+                <label for="data_cotacao2">Data da Cotação:</label>
+                <input type="date" id="data_cotacao2" name="data_cotacao2">
+                <label for="vendedor2">Nome do Vendedor:</label>
+                <input type="text" id="vendedor2" name="vendedor2">
+                <label for="telefone2">Telefone para Contato:</label>
+                <input type="text" id="telefone2" name="telefone2">
+            </div>
+
+            <!-- Preço 3 -->
+            <div class="preco-section">
+                <h2>Preço 3</h2>
+                <label for="preco3">Preço:</label>
+                <input type="number" id="preco3" name="preco3" step="any">
+                <label for="cnpj3">CNPJ do Fornecedor:</label>
+                <input type="text" id="cnpj3" name="cnpj3">
+                <label for="razao_social3">Razão Social:</label>
+                <input type="text" id="razao_social3" name="razao_social3">
+                <label for="data_cotacao3">Data da Cotação:</label>
+                <input type="date" id="data_cotacao3" name="data_cotacao3">
+                <label for="vendedor3">Nome do Vendedor:</label>
+                <input type="text" id="vendedor3" name="vendedor3">
+                <label for="telefone3">Telefone para Contato:</label>
+                <input type="text" id="telefone3" name="telefone3">
+            </div>
+
+            <button type="submit">Cadastrar Insumo</button>
+        </form>
+    </div>
+</body>
+</html>
