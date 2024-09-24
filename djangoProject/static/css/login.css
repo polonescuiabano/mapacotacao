@@ -1,0 +1,58 @@
+/* Definindo um fundo degradê azul escuro */
+body {
+    background: linear-gradient(to bottom, #193153, #11114E);
+    font-family: Arial, sans-serif;
+    color: #fff; /* Cor do texto */
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilos para a caixa de login */
+.login-box {
+    background-color: black; /* Cor de fundo preto */
+    width: 800px;
+    height: 600px;
+    padding: 40px; /* Espaçamento interno aumentado */
+    border-radius: 10px; /* Borda arredondada */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra */
+}
+
+/* Estilos para o título */
+.login-title {
+    text-align: center; /* Centralizar texto */
+    font-size: 24px; /* Tamanho da fonte */
+    margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+/* Estilos para os campos de entrada e botão */
+input[type="text"],
+input[type="password"],
+input[type="submit"] {
+    width: 100%; /* Largura total */
+    padding: 10px; /* Espaçamento interno */
+    margin-bottom: 10px; /* Espaçamento inferior */
+    border-radius: 5px; /* Borda arredondada */
+    border: none; /* Sem borda */
+}
+
+/* Estilos para o botão de login */
+input[type="submit"] {
+    background: linear-gradient(to bottom, #87CEFA, #00BFFF); /* Degrade azul claro */
+    color: #fff; /* Cor do texto */
+    cursor: pointer; /* Cursor de mão ao passar */
+    height: 40px; /* Altura do botão */
+}
+
+input[type="submit"]:hover {
+    background: linear-gradient(to bottom, #00BFFF, #87CEFA); /* Mudança de cor ao passar */
+}
+
+/* Estilos para o link "Forgot your password" */
+.forgot-password {
+    text-align: right; /* Alinhamento à direita */
+    margin-bottom: 10px; /* Espaçamento inferior */
+}
