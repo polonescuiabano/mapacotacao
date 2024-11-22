@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Meus Orçamentos e Pastas</h1>
+
+<h2>Orçamentos</h2>
+{% if orcamentos %}
+    <ul>
+        {% for orcamento in orcamentos %}
+            <li>
+                <strong>{{ orcamento.nome }}</strong>
+                <p>{{ orcamento.descricao }}</p>
+                <!-- Adicionar mais informações conforme necessário -->
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Você não tem orçamentos cadastrados.</p>
+{% endif %}
+
+<h2>Pastas</h2>
+{% if pastas %}
+    <ul>
+        {% for pasta in pastas %}
+            <li>
+                <strong>{{ pasta.nome }}</strong>
+                <p>{{ pasta.descricao }}</p>
+                <!-- Adicionar mais informações conforme necessário -->
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Você não tem pastas cadastradas.</p>
+{% endif %}
+{% endblock %}

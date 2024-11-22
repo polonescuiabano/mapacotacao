@@ -1,27 +1,53 @@
 {% load i18n %}
 {% load static %}
+<style>
+    .login-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('{% static "images/tela de fundo.jpg" %}') no-repeat center center;
+    background-size: cover; /* A imagem de fundo vai cobrir a área */
+}
+</style>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Controle</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+    <title>{% trans "Painel de Controle" %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login2.css' %}">
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-box">
-            <h1 class="login-title">{% trans "Painel de Controle" %}</h1>
-            <form method="post" action="{% url 'account_login' %}" class="login-form">
-                {% csrf_token %}
-                {{ form.as_p }}
-                {% if redirect_field_value %}
-                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-                {% endif %}
-                <input type="submit" class="login-button" value="{% trans "Acessar" %}">
-            </form>
+
+    <!-- Container principal com a divisão da tela -->
+    <div class="main-container">
+        <!-- Lado esquerdo com a logo -->
+        <div class="logo-container">
+            <img src="{% static 'images/logo serpra(sem fundo).png' %}" alt="SERPRA" class="logo">
+        </div>
+
+        <!-- Lado direito com o card de login -->
+        <div class="login-container">
+            <div class="login-box">
+                <h1 class="login-title">{% trans "Painel de Controle" %}</h1>
+
+                <!-- Formulário de login -->
+                <form method="post" action="{% url 'account_login' %}" class="login-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+
+                    <!-- Botão de login -->
+                    <input type="submit" class="login-button" value="{% trans 'Acessar' %}">
+                </form>
+            </div>
         </div>
     </div>
+
 </body>
 </html>

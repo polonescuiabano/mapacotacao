@@ -1,0 +1,11 @@
+<h1>Lista de Insumos</h1>
+<form method="get">
+    <input type="text" name="q" value="{{ query }}" placeholder="Pesquise por insumo..." />
+    <button type="submit">Pesquisar</button>
+</form>
+
+<ul>
+    {% for insumo in insumos %}
+        <li>{{ insumo.codigo }} - {{ insumo.descricao }}</li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    position: relative;
+    overflow-x: hidden;
+    /* Define o fundo SVG para a tela inteira */
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400"><defs><linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#f8f9fa;stop-opacity:1" /><stop offset="100%" style="stop-color:#e9ecef;stop-opacity:1" /></linearGradient><linearGradient id="shapeGradient1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#0066cc;stop-opacity:0.1" /><stop offset="100%" style="stop-color:#0066cc;stop-opacity:0.05" /></linearGradient><linearGradient id="shapeGradient2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#ffd700;stop-opacity:0.1" /><stop offset="100%" style="stop-color:#ffd700;stop-opacity:0.05" /></linearGradient></defs><rect width="800" height="400" fill="url(#bgGradient)" /><path d="M0,400 L300,300 Q400,250 500,300 L800,400 L800,400 L0,400 Z" fill="url(#shapeGradient1)" /><path d="M800,0 L500,100 Q400,150 300,100 L0,0 L0,0 L800,0 Z" fill="url(#shapeGradient2)" /><circle cx="700" cy="200" r="80" fill="#0066cc" fill-opacity="0.03" /><circle cx="100" cy="200" r="60" fill="#ffd700" fill-opacity="0.03" /><line x1="600" y1="50" x2="700" y2="150" stroke="#0066cc" stroke-width="1" stroke-opacity="0.1" /><line x1="100" y1="250" x2="200" y2="350" stroke="#ffd700" stroke-width="1" stroke-opacity="0.1" /></svg>') no-repeat center center fixed;
+    background-size: cover; /* Faz o SVG ocupar toda a tela */
+}
+
+/* Container do login */
+.login-container {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Box do formulário */
+.login-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Título */
+.login-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+/* Formulário */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Campos do formulário */
+.login-form p {
+    margin-bottom: 1rem;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"],
+.login-form input[type="email"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Botão de login */
+.login-button {
+    background: #0066cc;
+    color: white;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-button:hover {
+    background: #0052a3;
+}
+
+/* Mensagens de erro */
+.errorlist {
+    color: #dc3545;
+    list-style: none;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .login-box {
+        padding: 1.5rem;
+    }
+
+    .login-title {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,19 @@
+<h1>Lista de Composições</h1>
+<form method="get">
+    <input type="text" name="q" value="{{ query }}" placeholder="Pesquise por composição..." />
+    <button type="submit">Pesquisar</button>
+</form>
+
+<h2>Composições SINAPI</h2>
+<ul>
+    {% for composicao in sinapi_composicoes %}
+        <li>{{ composicao.codigo }} - {{ composicao.descricao }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Composições Sicro3</h2>
+<ul>
+    {% for composicao in sicro3_composicoes %}
+        <li>{{ composicao.codigo }} - {{ composicao.descricao }}</li>
+    {% endfor %}
+</ul>

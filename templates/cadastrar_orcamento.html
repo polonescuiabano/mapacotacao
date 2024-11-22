@@ -6,25 +6,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Orçamento</title>
     <style>
-        /* CSS para estilizar a seção dos dados da empresa */
         .dados-empresa {
             background-color: #f0f0f0;
             padding: 10px;
-            margin: 0 auto; /* Centralizando a caixa de dados da empresa */
+            margin: 0 auto;
             margin-bottom: 20px;
             border-radius: 5px;
-            width: 50%; /* Definindo a largura da caixa de dados da empresa */
+            width: 50%;
         }
+
         .dados-empresa label {
             font-weight: bold;
+        }
+
+        .insumo-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .insumo-tag {
+            background-color: #e0e0e0;
+            padding: 5px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .insumo-tag span {
+            margin-right: 10px;
+        }
+
+        .insumo-tag button {
+            background: none;
+            border: none;
+            color: red;
+            cursor: pointer;
+        }
+
+        #insumos-container {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <h1>Cadastrar Orçamento</h1>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/cadastrar_orcamento.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cadastrar_orcamento.css' %}">
     <div class="dados-empresa">
-        <h2 style="text-align: center">Dados da Empresa</h2> 
+        <h2 style="text-align: center">Dados da Empresa</h2>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <label for="id_nome_empresa">Nome da Empresa:</label>
@@ -45,26 +74,28 @@
             <label for="data_cotacao">Data da Cotação:</label>
             {{ form.data_cotacao }}
             <br>
-            
-
 
             <h2 style="text-align: center">Insumos do Orçamento</h2>
-            <div id="insumos-container"></div>
+            <div class="insumo-container" id="insumos-container">
+                <!-- Insumos adicionados aparecerão aqui -->
+            </div>
+
             <div class="insumo">
                 <label for="codigo_insumo">Código do Insumo:</label>
-                <input type="text" id="codigo_insumo" name="codigo_insumo">
+                <input type="text" id="codigo_insumo" name="codigo_insumo" placeholder="Código do Insumo">
                 <br>
                 <label for="nome_insumo">Nome do Insumo:</label>
-                <input type="text" id="nome_insumo" name="nome_insumo">
+                <input type="text" id="nome_insumo" name="nome_insumo" placeholder="Nome do Insumo">
                 <br>
                 <label for="unidade_medida">Unidade de Medida:</label>
-                <input type="text" id="unidade_medida" name="unidade_medida">
+                <input type="text" id="unidade_medida" name="unidade_medida" placeholder="Unidade de Medida">
                 <br>
                 <label for="preco">Preço do Insumo:</label>
-                <input type="number" id="preco" name="preco" step="0.01">
+                <input type="number" id="preco" name="preco" step="0.01" placeholder="Preço do Insumo">
+                <br><br>
+                <button type="button" id="add_insumo">Adicionar Insumo</button>
             </div>
-            <button type="button" id="add_insumo">Adicionar Insumo</button>
-            <br><br>
+
             <label for="documento">Documento (PDF):</label>
             <input type="file" id="documento" name="documento" accept=".pdf">
             <button type="submit">Enviar</button>
@@ -72,21 +103,63 @@
     </div>
 
     <script>
-    function logFormData() {
-        console.log("Código do Insumo:", document.getElementById("codigo_insumo").value);
-        console.log("Nome do Insumo:", document.getElementById("nome_insumo").value);
-        console.log("Unidade de Medida:", document.getElementById("unidade_medida").value);
-        console.log("Preço:", document.getElementById("preco").value);
-    }
+        document.getElementById('add_insumo').addEventListener('click', function() {
+            // Pegando os valores dos campos
+            var codigoInsumo = document.getElementById('codigo_insumo').value;
+            var nomeInsumo = document.getElementById('nome_insumo').value;
+            var unidadeMedida = document.getElementById('unidade_medida').value;
+            var preco = document.getElementById('preco').value;
 
-    document.getElementById('add_insumo').addEventListener('click', function() {
-        var insumoClone = document.querySelector('.insumo').cloneNode(true);
-        insumoClone.querySelectorAll('input').forEach(function(input) {
-            input.value = '';
-            input.id += Math.random().toString(36).substring(2);
+            // Verifica se todos os campos estão preenchidos
+            if (!codigoInsumo || !nomeInsumo || !unidadeMedida || !preco) {
+                alert('Preencha todos os campos para adicionar um insumo!');
+                return;
+            }
+
+            // Criação da "etiqueta" para o insumo
+            var insumoTag = document.createElement('div');
+            insumoTag.classList.add('insumo-tag');
+            insumoTag.innerHTML = `<span>${codigoInsumo} - ${nomeInsumo}</span> <button onclick="removeInsumo(this)">Remover</button>`;
+
+            // Adicionando a etiqueta no contêiner de insumos
+            document.getElementById('insumos-container').appendChild(insumoTag);
+
+            // Adicionando insumo ao form escondido (campos hidden)
+            var hiddenCodigo = document.createElement('input');
+            hiddenCodigo.type = 'hidden';
+            hiddenCodigo.name = 'codigo_insumo';
+            hiddenCodigo.value = codigoInsumo;
+            document.forms[0].appendChild(hiddenCodigo);
+
+            var hiddenNome = document.createElement('input');
+            hiddenNome.type = 'hidden';
+            hiddenNome.name = 'nome_insumo';
+            hiddenNome.value = nomeInsumo;
+            document.forms[0].appendChild(hiddenNome);
+
+            var hiddenUnidade = document.createElement('input');
+            hiddenUnidade.type = 'hidden';
+            hiddenUnidade.name = 'unidade_medida';
+            hiddenUnidade.value = unidadeMedida;
+            document.forms[0].appendChild(hiddenUnidade);
+
+            var hiddenPreco = document.createElement('input');
+            hiddenPreco.type = 'hidden';
+            hiddenPreco.name = 'preco';
+            hiddenPreco.value = preco;
+            document.forms[0].appendChild(hiddenPreco);
+
+            // Limpando os campos de input para o próximo insumo
+            document.getElementById('codigo_insumo').value = '';
+            document.getElementById('nome_insumo').value = '';
+            document.getElementById('unidade_medida').value = '';
+            document.getElementById('preco').value = '';
         });
-        document.querySelector('#insumos-container').appendChild(insumoClone);
-    });
+
+        // Função para remover insumo
+        function removeInsumo(button) {
+            button.parentElement.remove();
+        }
     </script>
 </body>
 </html>

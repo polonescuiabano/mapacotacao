@@ -1,0 +1,15 @@
+<h1>Orçamentos</h1>
+<h2>Pastas</h2>
+<ul>
+    {% for pasta in pastas %}
+        <li>{{ pasta.nome }} - <a href="{% url 'orcamentos' %}">Ver Orçamentos</a></li>
+    {% endfor %}
+</ul>
+
+<h2>Orçamentos</h2>
+<ul>
+    {% for orcamento in orcamentos %}
+        <li>{{ orcamento.nome }} - <a href="{% url 'criar_orcamento' %}">Adicionar Nova Obra</a></li>
+    {% endfor %}
+</ul>
+<a href="{% url 'criar_orcamento' %}">Criar Novo Orçamento</a>

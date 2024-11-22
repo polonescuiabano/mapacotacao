@@ -1,0 +1,11 @@
+<h1>Criar Novo Orçamento</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="nome">Nome:</label>
+    <input type="text" name="nome" required>
+    
+    <label for="descricao">Descrição:</label>
+    <textarea name="descricao"></textarea>
+    
+    <button type="submit">Criar</button>
+</form>

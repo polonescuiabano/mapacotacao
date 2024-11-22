@@ -2,101 +2,411 @@
 {% block content %}
 <div style="display: flex;">
     <style>
-        /* Estilos para o menu lateral */
+        :root {
+            --primary-blue: #2563eb;
+            --light-blue: #dbeafe;
+            --dark-blue: #1e40af;
+            --hover-blue: #3b82f6;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 0;
+        }
+
         .sidebar {
-            width: 250px;
-            background-color: #f1f1f1;
-            padding: 20px;
+            width: 280px;
+            background: linear-gradient(to bottom, var(--primary-blue), var(--dark-blue));
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-container {
+            padding: 16px 0;
+            margin-bottom: 32px;
+            margin-top: -50px;
+        }
+
+        .logo {
+            max-width: 100%;
+            height: auto;
+            padding: 8px;
+        }
+
+        .sidebar-links {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
         .sidebar a {
-            display: block;
-            padding: 10px;
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
             text-decoration: none;
-            color: #333;
+            color: white;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
         }
 
         .sidebar a:hover {
-            background-color: #ddd;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
         }
 
-        /* Estilos para as abas */
         .tab {
             overflow: hidden;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
-            margin-left: 20px; /* Espaçamento para as abas */
+            border: none;
+            background-color: transparent;
+            margin-left: 280px;
+            padding: 20px 32px;
+            display: flex;
+            gap: 12px;
         }
 
         .tab button {
-            background-color: inherit;
-            float: left;
-            border: none;
-            outline: none;
+            background-color: white;
+            border: 2px solid var(--light-blue);
+            border-radius: 8px;
+            padding: 12px 24px;
             cursor: pointer;
-            padding: 14px 16px;
             transition: 0.3s;
+            font-weight: 600;
+            color: var(--primary-blue);
         }
 
         .tab button:hover {
-            background-color: #ddd;
+            background-color: var(--light-blue);
         }
 
         .tab button.active {
-            background-color: #ccc;
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 32px;
+            max-width: 1200px;
         }
 
         .tabcontent {
             display: none;
-            padding: 6px 12px;
-            border: 1px solid #ccc;
-            border-top: none;
-        }
-
-        /* Estilos para o conteúdo */
-        .content {
-            flex: 1;
-            padding: 20px;
+            padding: 24px 0;
         }
 
         .card {
-            border: 1px solid #ccc;
-            margin-bottom: 10px;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
         }
 
         .card-header {
-            background-color: #f1f1f1;
-            padding: 10px;
+            background-color: white;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .card-body {
-            padding: 10px;
+            padding: 20px 24px;
+        }
+
+        .card-body ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .card-body li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .logout-button {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: auto;
+            margin-bottom: 16px;
+        }
+
+        .logout-button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .dropdown-toggle {
+            background-color: transparent;
+            border: none;
+            color: var(--primary-blue);
+            padding: 4px 8px;
+        }
+
+        .dropdown-menu {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-item {
+            padding: 8px 16px;
+            color: #374151;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+        }
+
+        .form-control {
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            padding: 8px 12px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--hover-blue);
+        }
+
+         .profile-menu {
+            position: fixed;
+            top: 16px;
+            right: 24px;
+            z-index: 1000;
+        }
+
+        .profile-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            position: relative;
+        }
+
+        .profile-image {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-blue);
+            transition: transform 0.2s ease;
+            object-fit: cover;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .profile-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: #374151;
+            text-decoration: none;
+            transition: background-color 0.2s ease;
+            gap: 12px;
+        }
+
+        .profile-dropdown-item:first-child {
+            border-radius: 12px 12px 0 0;
+        }
+
+        .profile-dropdown-item:last-child {
+            border-radius: 0 0 12px 12px;
+        }
+
+        .profile-dropdown-item:hover {
+            background-color: var(--light-blue);
+            color: var(--primary-blue);
+        }
+
+        .profile-dropdown-item i {
+            color: var(--primary-blue);
+            width: 20px;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #e5e7eb;
+            margin: 4px 0;
+        }
+
+        /* Adicionando animação de pulso para o botão de perfil */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+        }
+
+        .profile-image:hover {
+            animation: pulse 1.5s infinite;
+        }
+        .modal {
+            display: none; /* Ocultar o modal por padrão */
+            position: fixed;
+            z-index: 1; /* Fica acima de outros elementos */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Fundo transparente escuro */
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Largura do modal */
+            max-width: 600px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 
+<div class="profile-menu">
+    <button class="profile-button" onclick="toggleProfileMenu()">
+        <img src="{% if user.photo %}{{ user.photo.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="Foto de Perfil" class="profile-image">
+    </button>
+    <div class="profile-dropdown" id="profileDropdown">
+        <a href="#" class="profile-dropdown-item">
+            <i>👤</i>
+            <span>{{ user.name }} {{ user.surname }}</span>  <!-- Exibindo o nome e sobrenome -->
+        </a>
+        <a href="#" class="profile-dropdown-item" onclick="contactSupport()">
+            <i>📞</i>
+            <span>Contatar o Suporte</span>
+        </a>
+        <div class="divider"></div>
+        <!-- Alteração: Formulário para mudar foto de perfil -->
+        <a href="#" class="profile-dropdown-item" onclick="showUploadForm()">
+            <i>📷</i>
+            <span>Mudar Foto de Perfil</span>
+        </a>
+        <div class="divider"></div>
+        
+        <!-- Formulário para upload da foto de perfil (inicialmente oculto) -->
+        <form id="photoUploadForm" method="POST" action="{% url 'update_profile_picture' %}" enctype="multipart/form-data" style="display: none;">
+            {% csrf_token %}
+            <input type="file" name="photo" accept="image/*" required>
+            <button type="submit" class="profile-dropdown-item" style="width: 100%; border: none; background: none; text-align: left;">
+                <i>📷</i>
+                <span>Carregar Foto</span>
+            </button>
+        </form>
+        
+        <div class="divider"></div>
+        <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+            {% csrf_token %}
+            <button type="submit" class="profile-dropdown-item" style="width: 100%; border: none; background: none; text-align: left;">
+                <i>🚪</i>
+                <span>Sair</span>
+            </button>
+        </form>
+    </div>
+</div>
+
     <div class="sidebar">
-        <h2>Menu</h2>
+        <div class="logo-container">
+            <img src="{% static 'images/SERPRA.png' %}" alt="SERPRA" class="logo">
+        </div>
+        <a href="{% url 'lista_composicoes' %}">Lista de Composições</a>
+        <a href="{% url 'lista_insumos' %}">Lista de Insumos</a>
+        <a href="{% url 'orcamento_lista' %}">Orçamentos</a>
         <a href="{% url 'cadastrar_orcamento' %}">Cadastrar Orçamento</a>
         <a href="{% url 'relatorios' %}">Relatórios</a>
-        <a id="logout-link" href="#">Sair</a>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="logout-button">Sair</button>
+        </form>
     </div>
 
     <div class="content">
-        <h1>Perfil do Usuário</h1>
         <div class="tab">
             <button class="tablinks" onclick="openTab(event, 'cotacoes')">Cotações</button>
             <button class="tablinks" onclick="openTab(event, 'mapas')">Mapas</button>
         </div>
 
         <div id="cotacoes" class="tabcontent">
-            <h3>Cotações</h3>
             {% for insumo_com_preco in insumos_com_preco %}
             <div class="card">
                 <div class="card-header">
-                    {{ insumo_com_preco.insumo.nome }} - {{ insumo_com_preco.insumo.codigo }}
-                    <div class="dropdown float-right">
-                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            ...
+                    <h3 class="m-0">{{ insumo_com_preco.insumo.nome }} - {{ insumo_com_preco.insumo.codigo }}</h3>
+                    <div class="dropdown">
+                        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            •••
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="{% url 'delete_insumo' insumo_com_preco.insumo.id %}">Deletar</a>
@@ -114,38 +424,76 @@
             {% endfor %}
         </div>
 
-       <div id="mapas" class="tabcontent">
-    <h3>Mapas</h3>
-    <div>
-        {% for mapa in mapas_da_empresa %}
-            
-        <div class="card">
-            <div class="card-header">
-                <h5>{{ mapa.title }}</h5>
-                <!-- Adicione um formulário para permitir que o usuário renomeie o título do mapa -->
-                <form method="post" action="{% url 'rename_map_title' mapa.id %}">
-                    {% csrf_token %}
-                    <input type="text" name="new_title" value="{{ mapa.title }}">
-                    <button type="submit">Renomear</button>
-                </form>
+        <div id="mapas" class="tabcontent">
+            {% for mapa in mapas_da_empresa %}
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="m-0">{{ mapa.title }}</h3>
+                    <form method="post" action="{% url 'rename_map_title' mapa.id %}" class="mt-2">
+                        {% csrf_token %}
+                        <input type="text" name="new_title" value="{{ mapa.title }}" class="form-control" style="width: 60%; display: inline-block;">
+                        <button type="submit" class="btn btn-primary">Renomear</button>
+                    </form>
+                </div>
+                <div class="card-body">
+                    {% if mapa.arquivo %}
+                        <p>Arquivo associado a este mapa: {{ mapa.arquivo.name }}</p>
+                        <a href="{{ mapa.arquivo.url }}" download class="btn btn-primary">Download do Mapa</a>
+                    {% else %}
+                        <p>Nenhum arquivo associado a este mapa.</p>
+                    {% endif %}
+                </div>
             </div>
-            <div class="card-body">
-                {% if mapa.arquivo %}
-                    <p>Arquivo associado a este mapa: {{ mapa.arquivo.name }}</p>
-                    <a href="{{ mapa.arquivo.url }}" download>Download do Mapa</a>
-                {% else %}
-                    <p>Nenhum arquivo associado a este mapa.</p>
-                {% endif %}
-            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+    </div>
+</div>
+    
+    <div id="contactModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Contatar Suporte</h2>
+        <p><strong>CEO | Desenvolvedor Backend:</strong> Fernando Przybyszewski</p>
+        <p><strong>Telefone para contato:</strong> (65) 99240-4754</p>
+        <p><strong>Email para contato:</strong> <a href="mailto:fernandopkb@gmail.com">fernandopkb@gmail.com</a></p>
+        <hr>
+        <p><strong>Desenvolvedor Frontend:</strong> Gabriel Santana de Amorim</p>
+        <p><strong>Email para contato:</strong> <a href="mailto:santanadeamorimgabriel@gmail.com">santanadeamorimgabriel@gmail.com</a></p>
     </div>
 </div>
 
-    </div>
-</div>
+<script>
 
-    <script>
+    function showUploadForm() {
+        // Exibe o formulário de upload quando o usuário clica em "Mudar Foto de Perfil"
+        document.getElementById('photoUploadForm').style.display = 'block';
+    }
+    function toggleProfileMenu() {
+        var dropdown = document.getElementById('profileDropdown');
+        dropdown.classList.toggle('show');
+    }
+
+    function contactSupport() {
+        // Exibir o modal ao clicar em "Contatar o Suporte"
+        document.getElementById("contactModal").style.display = "block";
+    }
+        function closeModal() {
+        // Fechar o modal
+        document.getElementById("contactModal").style.display = "none";
+    }
+
+        function changeProfilePicture() {
+            // Implementar a lógica de mudança de foto
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(e) {
+                // Lógica para upload da nova foto
+                console.log('Mudando foto de perfil...');
+            };
+            input.click();
+        }
+
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -159,31 +507,10 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
 }
-</script>
 
-<script>
 document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("logout-link").addEventListener("click", function(event) {
-        event.preventDefault();  // Impede que o link execute a ação padrão
-
-        // Crie um formulário oculto e adicione-o à página
-        var form = document.createElement("form");
-        form.method = "POST";
-        form.action = "{% url 'logout' %}?next=/accounts/login/";
-        document.body.appendChild(form);
-
-        // Crie um campo de token CSRF para evitar erros de CSRF
-        var csrfToken = document.createElement("input");
-        csrfToken.type = "hidden";
-        csrfToken.name = "csrfmiddlewaretoken";
-        csrfToken.value = "{{ csrf_token }}";
-        form.appendChild(csrfToken);
-
-        // Envie o formulário
-        form.submit();
-    });
+    document.querySelector(".tablinks").classList.add("active");
+    document.getElementById("cotacoes").style.display = "block";
 });
-
 </script>
-
 {% endblock %}
